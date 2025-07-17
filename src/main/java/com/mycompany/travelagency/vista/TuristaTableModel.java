@@ -5,10 +5,12 @@
 package com.mycompany.travelagency.vista;
 
 
-import com.mycompany.travelagency.modelo.Turista;
-import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+import com.mycompany.travelagency.modelo.Turista;
 
 /**
  *
@@ -16,7 +18,8 @@ import java.util.List;
  */
 public class TuristaTableModel extends AbstractTableModel {
 
-    private final String[] columnNames = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Fecha de Nacimiento"};
+    private final String[] columnNames = {
+    "ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Fecha de Nacimiento", "Correo", "Teléfono"};
     private List<Turista> turistas;
 
     public TuristaTableModel() {
@@ -45,16 +48,18 @@ public class TuristaTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Turista turista = turistas.get(rowIndex);
-
         switch (columnIndex) {
             case 0: return turista.getId();
             case 1: return turista.getNombre();
             case 2: return turista.getApellidoPaterno();
             case 3: return turista.getApellidoMaterno();
             case 4: return turista.getFechaNacimiento();
+            case 5: return turista.getCorreo();
+            case 6: return turista.getTelefono();
             default: return null;
         }
     }
+
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {

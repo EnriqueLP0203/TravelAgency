@@ -1,16 +1,23 @@
 package com.mycompany.travelagency.vista;
 
-import com.mycompany.travelagency.modelo.Turista;
-import com.mycompany.travelagency.servicio.TuristaService;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.awt.GridLayout;
+
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
+import com.mycompany.travelagency.modelo.Turista;
+import com.mycompany.travelagency.servicio.TuristaService;
 
 public class TuristaFrame extends JFrame {
 
@@ -18,6 +25,8 @@ public class TuristaFrame extends JFrame {
     private JTextField txtApellidoPaterno;
     private JTextField txtApellidoMaterno;
     private JTextField txtFechaNacimiento;
+    private JTextField txtCorreo;
+    private JTextField txtTelefono;
 
     private JButton btnGuardar;
     private JButton btnLimpiar;
@@ -40,102 +49,130 @@ public class TuristaFrame extends JFrame {
         loadData();
     }
 
-private void initComponents() {
-    setTitle("Registro y Gestión de Turistas");
-    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    setLayout(new BorderLayout(10, 10));
+    private void initComponents() {
+        setTitle("Registro y Gestión de Turistas");
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setLayout(new BorderLayout(10, 10));
 
-    // Panel formulario con GridBagLayout
-    JPanel formPanel = new JPanel(new GridBagLayout());
-    formPanel.setBorder(new TitledBorder("Datos del Turista"));
-    GridBagConstraints gbc = new GridBagConstraints();
-    gbc.insets = new Insets(5, 10, 5, 10);
-    gbc.anchor = GridBagConstraints.WEST;
+        // Panel formulario con GridBagLayout
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBorder(new TitledBorder("Datos del Turista"));
+        formPanel.setPreferredSize(new Dimension(350, 0));  // Para que no se comprima
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 10, 5, 10);
+        gbc.anchor = GridBagConstraints.WEST;
 
-    // Labels - siempre en gridx=0, anchor WEST
-    // Campos - en gridx=1, fill horizontal + weightx=1 para que se estiren bien
+        // Labels y campos
 
-    gbc.gridx = 0; gbc.gridy = 0;
-    formPanel.add(new JLabel("Nombre:"), gbc);
-    gbc.gridx = 1;
-    gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.weightx = 1.0;
-    txtNombre = new JTextField(20);
-    formPanel.add(txtNombre, gbc);
+        gbc.gridx = 0; gbc.gridy = 0;
+        formPanel.add(new JLabel("Nombre:"), gbc);
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        txtNombre = new JTextField(20);
+        formPanel.add(txtNombre, gbc);
 
-    gbc.gridx = 0; gbc.gridy = 1;
-    gbc.fill = GridBagConstraints.NONE;
-    gbc.weightx = 0;
-    formPanel.add(new JLabel("Apellido Paterno:"), gbc);
-    gbc.gridx = 1;
-    gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.weightx = 1.0;
-    txtApellidoPaterno = new JTextField(20);
-    formPanel.add(txtApellidoPaterno, gbc);
+        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        formPanel.add(new JLabel("Apellido Paterno:"), gbc);
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        txtApellidoPaterno = new JTextField(20);
+        formPanel.add(txtApellidoPaterno, gbc);
 
-    gbc.gridx = 0; gbc.gridy = 2;
-    gbc.fill = GridBagConstraints.NONE;
-    gbc.weightx = 0;
-    formPanel.add(new JLabel("Apellido Materno:"), gbc);
-    gbc.gridx = 1;
-    gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.weightx = 1.0;
-    txtApellidoMaterno = new JTextField(20);
-    formPanel.add(txtApellidoMaterno, gbc);
+        gbc.gridx = 0; gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        formPanel.add(new JLabel("Apellido Materno:"), gbc);
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        txtApellidoMaterno = new JTextField(20);
+        formPanel.add(txtApellidoMaterno, gbc);
 
-    gbc.gridx = 0; gbc.gridy = 3;
-    gbc.fill = GridBagConstraints.NONE;
-    gbc.weightx = 0;
-    formPanel.add(new JLabel("Fecha Nacimiento (YYYY-MM-DD):"), gbc);
-    gbc.gridx = 1;
-    gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.weightx = 1.0;
-    txtFechaNacimiento = new JTextField(20);
-    formPanel.add(txtFechaNacimiento, gbc);
+        gbc.gridx = 0; gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        formPanel.add(new JLabel("Fecha Nacimiento (YYYY-MM-DD):"), gbc);
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        txtFechaNacimiento = new JTextField(20);
+        formPanel.add(txtFechaNacimiento, gbc);
 
-    // Botones en otro panel para que queden en fila con espacios
-    gbc.gridx = 0; gbc.gridy = 4;
-    gbc.gridwidth = 2;
-    gbc.fill = GridBagConstraints.NONE;
-    gbc.weightx = 0;
-    gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridx = 0; gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        formPanel.add(new JLabel("Correo (Gmail):"), gbc);
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        txtCorreo = new JTextField(20);
+        formPanel.add(txtCorreo, gbc);
 
-    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-    btnGuardar = new JButton("Guardar");
-    btnLimpiar = new JButton("Limpiar");
-    btnActualizar = new JButton("Actualizar");
-    btnEliminar = new JButton("Eliminar");
-    btnRefrescar = new JButton("Refrescar");
+        gbc.gridx = 0; gbc.gridy = 5;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        formPanel.add(new JLabel("Teléfono:"), gbc);
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        txtTelefono = new JTextField(20);
+        formPanel.add(txtTelefono, gbc);
 
-    btnActualizar.setEnabled(false);
-    btnEliminar.setEnabled(false);
+        // Panel de botones vertical
+        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 5, 5));
+        buttonPanel.setBorder(BorderFactory.createTitledBorder("Acciones"));
 
-    buttonPanel.add(btnGuardar);
-    buttonPanel.add(btnActualizar);
-    buttonPanel.add(btnEliminar);
-    buttonPanel.add(btnLimpiar);
-    buttonPanel.add(btnRefrescar);
+        btnGuardar = new JButton("Guardar");
+        btnGuardar.setBackground(new java.awt.Color(76, 175, 80));
+        btnGuardar.setForeground(java.awt.Color.BLACK);
 
-    formPanel.add(buttonPanel, gbc);
+        btnActualizar = new JButton("Actualizar");
+        btnActualizar.setBackground(new java.awt.Color(33, 150, 243));
+        btnActualizar.setForeground(java.awt.Color.BLACK);
+        btnActualizar.setEnabled(false);
 
-    // Panel tabla con border y scrollpane
-    tableModel = new TuristaTableModel();
-    tableTuristas = new JTable(tableModel);
-    tableTuristas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    tableTuristas.setRowHeight(25);
+        btnEliminar = new JButton("Eliminar");
+        btnEliminar.setBackground(new java.awt.Color(244, 67, 54));
+        btnEliminar.setForeground(java.awt.Color.BLACK);
+        btnEliminar.setEnabled(false);
 
-    JScrollPane scrollPane = new JScrollPane(tableTuristas);
-    scrollPane.setBorder(new TitledBorder("Lista de Turistas"));
+        btnLimpiar = new JButton("Limpiar");
+        btnRefrescar = new JButton("Refrescar");
 
-    // Usar JSplitPane para dividir pantalla entre formulario y tabla
-    JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, formPanel, scrollPane);
-    splitPane.setResizeWeight(0.4); // 40% para formulario, 60% para tabla
-    splitPane.setOneTouchExpandable(true);
-    splitPane.setDividerLocation(350);
+        buttonPanel.add(btnGuardar);
+        buttonPanel.add(btnActualizar);
+        buttonPanel.add(btnEliminar);
+        buttonPanel.add(btnLimpiar);
+        buttonPanel.add(btnRefrescar);
 
-    add(splitPane, BorderLayout.CENTER);
-}
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        formPanel.add(buttonPanel, gbc);
 
+        // Panel tabla con scrollpane
+        tableModel = new TuristaTableModel();
+        tableTuristas = new JTable(tableModel);
+        tableTuristas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableTuristas.setRowHeight(25);
+
+        JScrollPane scrollPane = new JScrollPane(tableTuristas);
+        scrollPane.setBorder(new TitledBorder("Lista de Turistas"));
+
+        // Dividir pantalla entre formulario y tabla
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, formPanel, scrollPane);
+        splitPane.setResizeWeight(0.4); // 40% formulario, 60% tabla
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setDividerLocation(350);
+
+        add(splitPane, BorderLayout.CENTER);
+    }
 
     private void configureEvents() {
         btnGuardar.addActionListener(e -> guardarTurista());
@@ -177,6 +214,8 @@ private void initComponents() {
             txtApellidoPaterno.setText(t.getApellidoPaterno());
             txtApellidoMaterno.setText(t.getApellidoMaterno());
             txtFechaNacimiento.setText(t.getFechaNacimiento().toString());
+            txtCorreo.setText(t.getCorreo());
+            txtTelefono.setText(t.getTelefono());
         }
     }
 
@@ -187,8 +226,11 @@ private void initComponents() {
                     txtNombre.getText().trim(),
                     txtApellidoPaterno.getText().trim(),
                     txtApellidoMaterno.getText().trim(),
-                    LocalDate.parse(txtFechaNacimiento.getText().trim())
+                    LocalDate.parse(txtFechaNacimiento.getText().trim()),
+                    txtCorreo.getText().trim(),
+                    txtTelefono.getText().trim()
                 );
+
                 turistaService.guardarTurista(turista);
                 mostrarMensaje("Turista guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 limpiarFormulario();
@@ -209,6 +251,8 @@ private void initComponents() {
                     turistaSeleccionado.setApellidoPaterno(txtApellidoPaterno.getText().trim());
                     turistaSeleccionado.setApellidoMaterno(txtApellidoMaterno.getText().trim());
                     turistaSeleccionado.setFechaNacimiento(LocalDate.parse(txtFechaNacimiento.getText().trim()));
+                    turistaSeleccionado.setCorreo(txtCorreo.getText().trim());
+                    turistaSeleccionado.setTelefono(txtTelefono.getText().trim());
 
                     turistaService.actualizarTurista(turistaSeleccionado);
                     mostrarMensaje("Turista actualizado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -257,6 +301,9 @@ private void initComponents() {
         txtApellidoPaterno.setText("");
         txtApellidoMaterno.setText("");
         txtFechaNacimiento.setText("");
+        txtCorreo.setText("");
+        txtTelefono.setText("");
+
         tableTuristas.clearSelection();
         turistaSeleccionado = null;
         btnActualizar.setEnabled(false);
@@ -272,6 +319,11 @@ private void initComponents() {
             mostrarMensaje("Todos los campos son obligatorios.", "Validación", JOptionPane.WARNING_MESSAGE);
             return false;
         }
+        if (txtCorreo.getText().trim().isEmpty() || txtTelefono.getText().trim().isEmpty()) {
+            mostrarMensaje("Correo y teléfono son obligatorios.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
         try {
             LocalDate.parse(txtFechaNacimiento.getText().trim());
         } catch (DateTimeParseException e) {
